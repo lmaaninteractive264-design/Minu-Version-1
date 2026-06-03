@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>মিনু - সচেতনতামূলক গল্পভিত্তিক গেম</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="মিনু - সাইবার বুলিং ও হ্যাকিং সচেতনতামূলক একটি ইন্টারেক্টিভ গেম।">
+  <meta name="author" content="Arafat Islam Arko - Imaan Interactive">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0d1b2a;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+
+    #gameWrapper {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #gameContainer {
+      width: 100%;
+      height: 100%;
+      max-width: 800px;
+      max-height: 450px;
+      background: #1b263b;
+      position: relative;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 800px) {
+      #gameContainer {
+        width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+      }
+    }
+
+    .center {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 0; /* প্যাডিং ০ করা হলো যাতে ছবি দুই পাশে একদম লেগে থাকে */
+    }
+
+    /* গেমের ভেতরের ইমেজ - ডানে ও বামে সম্পূর্ণ বড়/প্রশস্ত করার জন্য ফিক্স */
+    img {
+  display: none;
+}
+
+/* গেমের scene image */
+#sceneImage {
+  width: 100%;
+  height: 45vw;
+  max-height: 300px;
+  min-height: 220px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  transition: 0.4s ease;
+}
+
+/* স্টার্ট স্ক্রিন logo */
+#startscreen {
+  display: block;
+  width: 120px;
+  height: 120px;
+  max-height: 120px;
+  border-radius: 50%;
+  margin-bottom: 25px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+    /* স্টার্ট স্ক্রিনের গোলাকার লোগো (এটি আগের মতোই পারফেক্ট থাকবে) */
+    #startscreen {
+      display: block;
+      width: 120px;
+      height: 120px;
+      max-height: 120px;
+      border-radius: 50%;
+      margin-bottom: 25px;
+      object-fit: cover;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.4;
+      margin: 10px 15px;
+      max-width: 90%;
+      padding: 0 10px;
+    }
+
+    button {
+      padding: 12px 24px;
+      background: #1b4d3e;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #2c7a5f;
+    }
+
+    .option-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 90%;
+      max-width: 450px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+
+    .option-btn {
+      width: 100%;
+      background: #415a77;
+      margin: 0;
+      padding: 12px;
+    }
+
+    .option-btn:hover {
+      background: #778da9;
+    }
+
+    #menuBtn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 26px;
+      cursor: pointer;
+      z-index: 999;
+      user-select: none;
+    }
+
+    #menuBox {
+      position: absolute;
+      top: 45px;
+      right: 15px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 5px;
+      display: none;
+      z-index: 999;
+    }
+
+    #menuBox p {
+      margin: 0;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #menuBox p:hover {
+      background: #222;
+    }
+    #audioControlBtn {
+      position: absolute;
+      top: 15px;
+      right: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 999;
+      user-select: none;
+    }
+    #menuBtn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 26px;
+      cursor: pointer;
+      z-index: 999;
+      user-select: none;
+    }
+    #menuBox {
+      position: absolute;
+      top: 45px;
+      right: 15px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 5px;
+      display: none;
+      z-index: 999;
+    }
+    #menuBox a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    #menuBox a:hover {
+      background: #222;
+    }
+  </style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="gemini_music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="clickSound">
+  <source src="click.mp3" type="audio/mpeg">
+</audio>
+
+<div id="gameWrapper">
+  <div id="gameContainer">
+    
+    <div id="audioControlBtn" onclick="toggleMusic()">🔊</div>
+    <div id="menuBtn">⋮</div>
+    <div id="menuBox">
+     <a href="about.html" onclick="playClick()">About Game</a>
+      <a href="privacy.html" onclick="playClick()">Privacy Policy</a>
+      <a href="terms.html" onclick="playClick()">Terms & Conditions</a>
+      <a href="contact.html" onclick="playClick()">Contact Us</a>
+    </div>
+
+    <div id="startScreen" class="center">
+      <img id="startscreen" src="https://i.ibb.co.com/dwLR5ctP/IMG-20260526-112212.png" alt="start">
+      <h1 style="color: #e07a5f; margin-bottom: 5px;">মিনু (Minu)</h1>
+      <p style="opacity:0.7; font-size: 14px;">Created by Imaan Interactive</p>
+      <button onclick="startGame()">গেম শুরু করুন (Start Game)</button>
+    </div>
+
+    <div id="gameScreen" class="center" style="display:none;">
+      <img id="sceneImage" src="" alt="Scene">
+      <p id="sceneText"></p>
+      
+      <div id="choiceBox" class="option-grid" style="display:none;"></div>
+      <button id="nextBtn" style="display:none;">পরের পেজে যান (Next)</button>
+    </div>
+
+    <div id="endingScreen" class="center" style="display:none;">
+      <h2 id="endingTitle" style="color: #e07a5f;">এপিসোড ১ শেষ</h2>
+      <p id="endingText"></p>
+      <hr style="width:60%; opacity:0.3; margin: 15px 0;">
+      <p style="font-size:13px; opacity:0.7;">
+        Created by <b>Imaan Interactive</b><br>
+        Story & Game Design: Arafat Islam Arko<br>
+        © ২০২৬ imaan interactive দ্বারা এর সকল সংস্করণ সংরক্ষিত
+      </p>
+      <p>Episode 2 coming soon</p>
+      <button onclick="restartGame()">আবার খেলুন (Restart)</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const scenes = {
+    "intro_1": {
+      img: "https://i.ibb.co.com/Z1BkWmFr/1779715878145.png",
+      text: "মিনু তার পড়াশোনার পাশাপাশি মোবাইল ফোন ব্যবহার করতে ভালোবাসে। আজ সে ঘরে বসে সোশ্যাল মিডিয়া স্ক্রোল করছিল।",
+      isChoice: false,
+      nextId: "intro_2"
+    },
+    "intro_2": {
+      img: "https://i.ibb.co.com/hFdLrgdd/1779729618063.png",
+      text: "হঠাৎ মিনুর ইনবক্সে অপরিচিত একটি আইডি থেকে মেসেজ এলো: 'অভিনন্দন! আপনি ১০০০ টাকা ফ্রি মোবাইল রিচার্জ জিতেছেন! নিচের লিংকে ক্লিক করে আপনার পাসওয়ার্ড দিয়ে ভেরিফাই করুন।'",
+      isChoice: true,
+      options: [
+        { text: "লোভে পড়ে লিংকে ক্লিক করবে ও পাসওয়ার্ড দেবে।", nextId: "hacked_route" },
+        { text: "লিংকটি সন্দেহজনক মনে করে এড়িয়ে যাবে।", nextId: "safe_route" }
+      ]
+    },
+    "hacked_route": {
+      img: "https://i.ibb.co.com/mCSpjtyy/1779729884376.png",
+      text: "ওহ না! লিংকে ক্লিক করার কিছুক্ষণ পরই মিনুর আইডিটি হ্যাক হয়ে গেল। হ্যাকার তার আইডি থেকে বন্ধুদের কুরুচিপূর্ণ মেসেজ পাঠাতে শুরু করল। মিনু এখন ভীষণ ভয় পেয়ে গেছে। সে কী করবে?",
+      isChoice: true,
+      options: [
+        { text: "ভয়ে ও লজ্জায় মা-বাবাকে না বলে চুপচাপ ঘরে বসে কাঁদবে।", nextId: "bad_ending" },
+        { text: "দেরি না করে মা-বাবা অথবা বড় ভাইয়াকে পুরো ঘটনাটি খুলে বলবে।", nextId: "family_help" }
+      ]
+    },
+    "bad_ending": {
+      img: "https://i.ibb.co.com/mrPHJdq5/1779730341046.png",
+      text: "ভুল সিদ্ধান্ত! চুপচাপ থাকার কারণে হ্যাকার মিনুর বন্ধুদের কাছ থেকে টাকা দাবি করে বসল এবং মিনুর মানসিক অবস্থা আরও খারাপ হলো। (সাইবার বুলিংয়ের বিরুদ্ধে সবসময় মুখ খুলতে হয়)।",
+      isChoice: false,
+      nextId: "game_over"
+    },
+    "family_help": {
+      img: "https://i.ibb.co.com/3511gLFc/1779731686532.png",
+      text: "সঠিক সিদ্ধান্ত! পরিবারকে জানানোয় তারা মিনুকে বকা না দিয়ে সান্ত্বনা দিল এবং মিনুর বড় ভাইয়া দ্রুত সাইবার সিকিউরিটি হেল্পলাইনে যোগাযোগ করল।",
+      isChoice: false,
+      nextId: "good_ending"
+    },
+    "safe_route": {
+      img: "https://i.ibb.co.com/23m3NQv7/1779732020574.png",
+      text: "দারুণ বুদ্ধি মিনুর! সে বুঝতে পেরেছিল যে ইন্টারনেটে এরকম লোভনীয় লিংক আসলে একটি ফাঁদ (Phishing Link)। সে তার বন্ধুদেরও এই বিষয়ে সচেতন করল।",
+      isChoice: false,
+      nextId: "good_ending"
+    }
+  };
+
+  let currentSceneId = "intro_1";
+  let isMuted = false;
+
+  const startScreen = document.getElementById("startScreen");
+  const gameScreen = document.getElementById("gameScreen");
+  const endingScreen = document.getElementById("endingScreen");
+  const sceneImage = document.getElementById("sceneImage");
+  const sceneText = document.getElementById("sceneText");
+  const choiceBox = document.getElementById("choiceBox");
+  const nextBtn = document.getElementById("nextBtn");
+  const music = document.getElementById("bgMusic");
+  const clickSound = document.getElementById("clickSound");
+  const audioControlBtn = document.getElementById("audioControlBtn");
+
+  // সাউন্ড এফেক্ট প্লে করার ফাংশন
+  function playClick() {
+    if (!isMuted) {
+      clickSound.currentTime = 0;
+      clickSound.play().catch(e => console.log("Sound error"));
+    }
+  }
+
+  // মিউজিক অন/অফ করার ফাংশন
+  function toggleMusic() {
+    if (isMuted) {
+      music.muted = false;
+      isMuted = false;
+      audioControlBtn.innerText = "🔊";
+    } else {
+      music.muted = true;
+      isMuted = true;
+      audioControlBtn.innerText = "🔇";
+    }
+  }
+
+  function startGame() {
+    playClick();
+    music.volume = 0.2; // ব্যাকগ্রাউন্ড সাউন্ড একটু কমিয়ে রাখা হলো
+    music.play().catch(e => console.log("Audio play needs interaction"));
+    
+    startScreen.style.display = "none";
+    gameScreen.style.display = "flex";
+    loadScene();
+  }
+
+  function loadScene() {
+    choiceBox.style.display = "none";
+    choiceBox.innerHTML = "";
+    nextBtn.style.display = "none";
+
+    const scene = scenes[currentSceneId];
+
+    if (scene.img) {
+      sceneImage.style.display = "block";
+      sceneImage.src = scene.img;
+    } else {
+      sceneImage.style.display = "none";
+    }
+    sceneText.innerText = scene.text;
+
+    if (scene.isChoice) {
+      choiceBox.style.display = "flex";
+      scene.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = opt.text;
+        btn.onclick = () => {
+          playClick(); // অপশনে ক্লিক করলে শব্দ হবে
+          currentSceneId = opt.nextId;
+          saveProgress();
+          loadScene();
+        };
+        choiceBox.appendChild(btn);
+      });
+    } else {
+      nextBtn.style.display = "block";
+      nextBtn.onclick = () => {
+        playClick(); // নেক্সট বাটনে ক্লিক করলে শব্দ হবে
+        if (scene.nextId === "game_over" || scene.nextId === "good_ending") {
+          showEnding(scene.nextId);
+        } else {
+          currentSceneId = scene.nextId;
+          saveProgress();
+          loadScene();
+        }
+      };
+    }
+  }
+
+  function showEnding(type) {
+    gameScreen.style.display = "none";
+    endingScreen.style.display = "flex";
+    localStorage.removeItem("minu_saved_scene");
+    
+    if (type === "good_ending") {
+      document.getElementById("endingTitle").innerText = "সফল সমাপ্তি! (Good Ending)";
+      document.getElementById("endingText").innerText = "অভিনন্দন! আপনার সঠিক নির্দেশনায় মিনু সাইবার অপরাধীদের ফাঁদ থেকে বেঁচে গেল এবং সুরক্ষিত থাকল। সচেতনতাই আমাদের সবচেয়ে বড় শক্তি!";
+    } else {
+      document.getElementById("endingTitle").innerText = "দুঃখজনক সমাপ্তি! (Bad Ending)";
+      document.getElementById("endingText").innerText = "মিনু আজ সাইবার বুলিং ও হ্যাকিংয়ের শিকার হলো। এই সমাজকে সচেতন করতে আমাদের আরও সতর্ক হতে হবে। আবার চেষ্টা করুন!";
+    }
+  }
+
+  function restartGame() {
+    playClick();
+    currentSceneId = "intro_1";
+    endingScreen.style.display = "none";
+    gameScreen.style.display = "flex";
+    loadScene();
+  }
+
+  function saveProgress() {
+    localStorage.setItem("minu_saved_scene", currentSceneId);
+  }
+
+  window.onload = function () {
+    const saved = localStorage.getItem("minu_saved_scene");
+    if (saved && scenes[saved]) {
+      currentSceneId = saved;
+    }
+  };
+
+  const menuBtn = document.getElementById("menuBtn");
+  const menuBox = document.getElementById("menuBox");
+
+  menuBtn.onclick = (e) => {
+    e.stopPropagation();
+    menuBox.style.display = menuBox.style.display === "block" ? "none" : "block";
+  };
+
+  document.addEventListener("click", () => {
+    menuBox.style.display = "none";
+  });
+
+  function openAbout() { alert("মিনু - একটি সামাজিক সচেতনতামূলক প্রজেক্ট। তৈরি করেছে ইমান ইন্টারঅ্যাক্টিভ।"); }
+  function openPrivacy() { alert("প্রাইভেসি পলিসি: এই গেমটি প্লেয়ারের কোনো ব্যক্তিগত তথ্য সংগ্রহ করে না।"); }
+</script>
+</body>
+</html>)
